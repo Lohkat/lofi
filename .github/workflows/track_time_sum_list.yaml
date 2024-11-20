@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
-      
+
       - name: Do all of it
         shell: bash
         env:
@@ -31,12 +31,15 @@ jobs:
           TRACKS=$(ls $TRACKS_PATH/*.ogg)
           TIME=0
 
+          echo "# List of tracks:" >> $GITHUB_STEP_SUMMARY
+          printf "\n$TRACKS" >> $GITHUB_STEP_SUMMARY
+
           while read it; do
             CUR_TIME=$(mediainfo --Output='General;%Duration%' $it)
             CUR_NAME=$(sed -e 's/^'$TRACKS_PATH'\///;s/\.ogg$//' <<< $it)
             TIME=$(( TIME + CUR_TIME ))
             
-            echo "  [$CUR_NAME, $CUR_TIME]," >> $FP
+            echo "  [\"$CUR_NAME\", $CUR_TIME]," >> $FP
           done <<< $TRACKS
           
           echo "];" >> $FP
