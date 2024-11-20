@@ -12,21 +12,36 @@
     <meta name="description" content="Lohk's Nest">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <link rel="icon" type="image/x-icon" href="/images/self.jpg">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
     
-    <title>Lohk's Nest</title>
+    <title>LoFi</title>
 
     <link rel="stylesheet" href="/deps/css/default.css">
 
     <script type="text/javascript" src="js/times.js"></script>
     <script type="text/javascript" src="js/player.js"></script>
     
-    <!--link rel="stylesheet" href="/css/boxxing.css">
-    <script type="text/javascript" src="/js/common.js"></script-->
+    <link href="css/lofi.css" media="all" rel="stylesheet" />
 </head>
 <body>
-    <div>
-        <p>Still an experiment</p>
+    <div class="player_box" id="player_box">
+        <h2 class="header">LoFi Embedded Player Radio V2</h2>
+        
+        <div>
+            <h4 class="status" id="status_msg">Click in this box to start the stream!</h4>
+            <div
+                class="lf-volume-bar"
+                id="slider_vol"
+                colorlow="hsl(200, 40%, 20%)"
+                colorhigh="hsl(200, 70%, 50%)"
+            >
+                <span>...%</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h4>Songs source: LoFi StreamBeats by Harris Heller</h4>
+        </div>
     </div>
 </body>
 </html>
