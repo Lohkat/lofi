@@ -35,7 +35,7 @@ jobs:
           printf "\n$TRACKS" >> $GITHUB_STEP_SUMMARY
 
           while read it; do
-            CUR_TIME=$(mediainfo --Output='General;%Duration%' $it)
+            CUR_TIME=$(mediainfo --Output='General;%Duration%' "$it")
             CUR_NAME=$(sed -e 's/^'$TRACKS_PATH'\///;s/\.ogg$//' <<< $it)
             TIME=$(( TIME + CUR_TIME ))
             
