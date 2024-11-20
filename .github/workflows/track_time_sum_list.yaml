@@ -1,0 +1,52 @@
+on:
+  workflow_dispatch:
+
+env:
+  FP_TIMES_ARRAY: 'js/times.js'
+  TRACKS_PATH: 'tracks'
+  COMMIT_EMAIL: 'automated@lohkat.github.io'
+  COMMIT_USER: 'Automated Track Calculator'
+
+jobs:
+  work:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Do all of it
+        shell: bash
+        env:
+          FP: ${{ env.FP_TIMES_ARRAY }}
+          TRACKS_PATH: ${{ env.TRACKS_PATH }}
+          USER: ${{ env.COMMIT_USER }}
+          EMAIL: ${{ env.COMMIT_EMAIL }}
+        run: |
+          echo "Installing mediainfo for media info..."
+          sudo apt install -y mediainfo
+
+          echo "Cleaning up JS file to append times..."
+          echo "const tracks = [" > $FP
+
+          echo "Working on it..."
+          TRACKS=$(ls $TRACKS_PATH/*.ogg)
+          TIME=0
+
+          while read it; do
+            CUR_TIME=$(mediainfo --Output='General;%Duration%' $it)
+            CUR_NAME=$(sed -e 's/^'$TRACKS_PATH'\///;s/\.ogg$//' <<< $it)
+            TIME=$(( TIME + CUR_TIME ))
+            
+            echo "  [$CUR_NAME, $CUR_TIME]," >> $FP
+          done <<< $TRACKS
+          
+          echo "];" >> $FP
+          echo "const track_total_time_ms = $TIME;" >> $FP
+          
+          git config --global user.email "$EMAIL"
+          git config --global user.name "$USER"
+          
+          echo "Commiting..."
+
+          git add .
+          git commit -m "[Automated] Updating tracks list automagically..."
+          git push -u origin master
+          
+          echo "Ended it! :3"
