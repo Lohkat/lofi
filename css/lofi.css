@@ -70,3 +70,10 @@ button {
     margin: 0 0.5em;
     padding: 0.2em 1.5em;
 }
+a {
+    color: inherit !important;
+}
+
+a:hover {
+    text-decoration: underline;
+}
