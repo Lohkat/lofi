@@ -63,11 +63,33 @@ const controls = {
     }
 }
 
+const radial_animation = {
+    begin: -1,
+    element: null,
+
+    setup: function()
+    {
+        if (this.element == null) {
+            this.element = document.getElementById("player_box");
+            this.begin = Number(new Date());
+            setInterval(function(){ radial_animation._work(); }, 500);
+        }
+    },
+
+    _work: function()
+    {
+        const deg = (135 + (Number(new Date()) - this.begin) / 100) % 360;
+        this.element.style.background = `linear-gradient(${deg}deg, hsl(123, 42%, 54%), hsl(180, 42%, 54%))`;
+    }
+}
+
 function setup() {
     const sli = document.getElementById("slider_vol");
     const box = document.getElementById("player_box");
 
-    sli["_embedSli"] = function(ev){
+    /* ========== Volume control ========== */
+
+    sli["_embedSli"] = function(ev){ // abusing on local variable saving more data. This is never shown in DOM
         if (ev.buttons == 0 && ev.type != "mouseup") return -1;
         if (ev.type == "mouseleave") return -1;
 
@@ -105,7 +127,13 @@ function setup() {
     sli.children[0].innerText = Math.round(controls.volume * 100) + "%";
 
     box.addEventListener("click", function() {
-        setInterval(manage_tracks, 1000);
+        if (!box["_TASK"]) { // abusing on local variable saving more data. This is never shown in DOM
+            console.log(`[LOFI] Triggered start...`);
+            box["_TASK"] = setInterval(manage_tracks, 1000);
+            manage_tracks();
+            radial_animation.setup();
+            
+        }
     });
 }
 
@@ -172,8 +200,8 @@ function manage_tracks() {
 
     const status_el = document.getElementById("status_msg");
 
-    status_el.innerText = `${curr.time_total_str} -> ${name_trk} - ${name_album}`;
-    document.title = `${curr.time_total_str} - ${name_trk} - ${name_album}`;
+    status_el.innerHTML = `${curr.time_total_str} <strong>&nbsp;::&nbsp;</strong> ${name_trk} - ${name_album} <strong>&nbsp;::&nbsp;</strong> ${curr.time_curr_str}`;
+    document.title = `${name_trk} - ${name_album} - ${curr.time_total_str}`;
 }
 
 function __checkNullIfSo(val, repl) { if (val === null) return repl; return val; }
