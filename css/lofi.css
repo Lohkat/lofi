@@ -38,8 +38,8 @@ h4.status {
 }
 
 .lf-volume-bar {
-    width: 200px;
-    height: 17px;
+    width: 16em;
+    height: 1.3em;
     background-color: rgb(116, 0, 0);
     margin: 0;
     padding: 0;
@@ -56,9 +56,8 @@ h4.status {
     text-align: center;
     width: 100%;
     display: inline-block;
-    transform: translate(0, -8px);
-    font-size: 14px;
-    height: 17px;
+    transform: translate(0, -0.36em);
+    font-size: 1.1em;
     text-shadow: 1px 1px 2px black;
 }
 .lf-volume-bar-text-emoji {
