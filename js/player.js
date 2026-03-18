@@ -72,13 +72,13 @@ const radial_animation = {
         if (this.element == null) {
             this.element = document.getElementById("player_box");
             this.begin = Number(new Date());
-            setInterval(function(){ radial_animation._work(); }, 500);
+            setInterval(function(){ radial_animation._work(); }, 200);
         }
     },
 
     _work: function()
     {
-        const deg = (135 + (Number(new Date()) - this.begin) / 100) % 360;
+        const deg = (135 + (Number(new Date()) - this.begin) / 200) % 360;
         this.element.style.background = `linear-gradient(${deg}deg, hsl(123, 42%, 54%), hsl(180, 42%, 54%))`;
     }
 }
